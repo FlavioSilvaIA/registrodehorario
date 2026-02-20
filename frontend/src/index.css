@@ -1,0 +1,92 @@
+/* GX2 Design Tokens - Guia de Identidade Visual */
+:root {
+  /* Cores primárias */
+  --gx2-turquesa: #35b6ad;
+  --gx2-azul-marinho: #1b2948;
+  --gx2-branco: #ffffff;
+  /* Secundárias (detalhes) */
+  --gx2-amarelo: #feb801;
+  --gx2-azul-ciano: #01d5fe;
+  --gx2-turquesa-claro: #19dbd1;
+  /* Neutros */
+  --gx2-cinza-100: #f8fafc;
+  --gx2-cinza-200: #e2e8f0;
+  --gx2-cinza-300: #cbd5e1;
+  --gx2-cinza-500: #64748b;
+  --gx2-cinza-600: #475569;
+  --gx2-cinza-700: #334155;
+  --gx2-texto: #1b2948;
+  --gx2-texto-secundario: #64748b;
+  /* Estados */
+  --gx2-danger: #ef4444;
+  --gx2-success: #22c55e;
+  --gx2-warning: #eab308;
+  --gx2-success-bg: #dcfce7;
+  --gx2-danger-bg: #fef2f2;
+  --gx2-warning-bg: #fef9c3;
+  /* Spacing (ENH-001) */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--gx2-cinza-100);
+  color: var(--gx2-texto);
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+/* Títulos em negrito */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Focus ring acessível (ENH-007) */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--gx2-turquesa);
+  outline-offset: 2px;
+}
+
+/* Button hover (UI-ENH-002) */
+.gx2-btn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+.gx2-btn.gx2-btn-ghost:hover:not(:disabled) {
+  background: var(--gx2-cinza-100) !important;
+}
+.gx2-btn.gx2-btn-primary:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+/* Skeleton shimmer (UI-ENH-005) */
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

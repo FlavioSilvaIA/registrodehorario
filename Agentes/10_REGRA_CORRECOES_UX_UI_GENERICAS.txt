@@ -1,0 +1,159 @@
+==================================================================
+📐 REGRA DE CORREÇÕES UX/UI GENÉRICAS (OBRIGATÓRIA PARA AGENTES 07 E 08)
+==================================================================
+
+REFERÊNCIA COMPLEMENTAR: INFO_FRONTEND_STACK.txt — informações de stack
+(estilos, bundler, framework_ui, ícones) que agentes upstream devem
+entregar aos agentes de frontend.
+
+OBJETIVO:
+- Documentar padrões de correção UX/UI aplicados fora dos agentes (comandos manuais).
+- Permitir que os Agentes 07 (UIUX) e 08 (GX2 Brand) identifiquem e corrijam
+  violações equivalentes quando as encontrarem em auditorias futuras.
+
+ORIGEM: Alterações aplicadas em 18/02/2026 (grids, tokens, alinhamento).
+Aplicável a: Agente 07 (Agente_UIUX_Governance_Executor), Agente 08 (GX2_AI_Brand_UI_Guardian).
+
+--------------------------------------------------------------
+1) PADRÃO DE GRIDS/TABELAS (FIX-GRID)
+--------------------------------------------------------------
+
+Quando o agente identificar tabelas/grids com informações fora de posicionamento,
+alinhamento inconsistente ou headers sem estilo padronizado, DEVE propor e
+(after aprovação) aplicar o seguinte padrão:
+
+1.1 Alinhamento por tipo de coluna:
+| Tipo de coluna                    | Header textAlign | Célula textAlign |
+|-----------------------------------|------------------|------------------|
+| Texto (nome, descrição)           | left             | left             |
+| Data                              | left             | left             |
+| Valores numéricos (R$, horas)     | right            | right            |
+| Tipo/Situação/Abrangência (curto) | center           | center           |
+| Checkboxes / ícones                | center           | center           |
+| Ações (Editar/Excluir)             | right            | right (flex-end) |
+
+1.2 Estilo obrigatório dos headers (th):
+- padding: 12
+- fontSize: 12
+- color: var(--gx2-texto-secundario)
+- textAlign: conforme tabela acima
+- borderBottom: 1px solid var(--gx2-cinza-200)
+- Coluna Ações: minWidth: 120 (evitar corte dos ícones)
+
+1.3 Estilo obrigatório das linhas (tr tbody):
+- borderBottom: 1px solid var(--gx2-cinza-100)
+
+1.4 Células de ações (td com botões Editar/Excluir):
+- display: flex
+- flexDirection: row
+- gap: 8
+- padding: 12
+- alignItems: center
+- justifyContent: flex-end
+
+--------------------------------------------------------------
+2) TOKENS GX2 (SUBSTITUIÇÃO OBRIGATÓRIA)
+--------------------------------------------------------------
+
+Quando o agente identificar cores hardcoded fora da paleta, DEVE propor
+substituição pelos tokens CSS:
+
+| NÃO usar (hex) | Usar (token)                    |
+|----------------|---------------------------------|
+| #e2e8f0        | var(--gx2-cinza-200)           |
+| #f1f5f9        | var(--gx2-cinza-100)           |
+| #64748b        | var(--gx2-texto-secundario)    |
+| #94a3b8        | var(--gx2-texto-secundario)    |
+| #cbd5e1        | var(--gx2-cinza-300)           |
+| #475569        | var(--gx2-cinza-600)           |
+| #334155        | var(--gx2-cinza-700)           |
+
+Tokens disponíveis em index.css (:root):
+- --gx2-turquesa, --gx2-azul-marinho, --gx2-branco
+- --gx2-amarelo, --gx2-azul-ciano, --gx2-turquesa-claro
+- --gx2-cinza-100 a 700, --gx2-texto, --gx2-texto-secundario
+- --gx2-danger, --gx2-success, --gx2-warning
+- --spacing-1 a 12, --radius-sm, --radius-md, --radius-lg
+
+--------------------------------------------------------------
+3) MENSAGENS DE ESTADO VAZIO
+--------------------------------------------------------------
+
+Quando o agente identificar mensagens "Nenhum X encontrado" ou equivalentes
+com cor hardcoded (#94a3b8, #64748b, etc.), DEVE propor:
+- color: var(--gx2-texto-secundario)
+- Manter padding e textAlign adequados
+
+--------------------------------------------------------------
+4) CHECKLIST DE IDENTIFICAÇÃO (AGENTE DEVE VERIFICAR)
+--------------------------------------------------------------
+
+Na ETAPA A (auditoria), o agente DEVE verificar em cada tabela/grid:
+
+[ ] Headers têm fontSize: 12 e color: var(--gx2-texto-secundario)?
+[ ] Colunas de texto/descrição estão alinhadas à esquerda?
+[ ] Colunas de valores (R$, horas) estão alinhadas à direita?
+[ ] Colunas de tipo/situação/status estão centralizadas?
+[ ] Coluna Ações tem minWidth: 120 e textAlign: right?
+[ ] borderBottom usa var(--gx2-cinza-200) no thead?
+[ ] Cores hex (#e2e8f0, #64748b, #94a3b8) foram substituídas por tokens?
+
+Se alguma resposta for NÃO, incluir no backlog como FIX-GRID-### ou GX2-FIX-###
+(conforme nomenclatura do agente) e propor correção.
+
+--------------------------------------------------------------
+5) INTEGRAÇÃO COM FLUXO DOS AGENTES
+--------------------------------------------------------------
+
+- Agente 07: Ao identificar violação de grid/tabela, criar FIX-### ou ENH-###
+  referenciando este padrão. Ex.: "FIX-XXX: Grid [Nome] viola REGRA_CORRECOES_UX_UI_GENERICAS
+  seção 1 — headers sem thBase, coluna Tipo não centralizada."
+
+- Agente 08: Ao identificar violação, criar GX2-FIX-### ou GX2-ENH-###
+  referenciando tokens e alinhamento. Ex.: "GX2-FIX-XXX: Tabela [Nome] usa #e2e8f0
+  em vez de var(--gx2-cinza-200); headers sem padrão thBase."
+
+- Ambos: Após aprovação, aplicar as correções conforme este documento.
+
+--------------------------------------------------------------
+6) COMPONENTES OBRIGATÓRIOS (UI-ENH-005 a 008)
+--------------------------------------------------------------
+
+Quando o agente identificar ausência destes componentes ou uso de alternativas
+nativas (alert(), div vazia, "Carregando..."), DEVE propor e (após aprovação)
+implementar:
+
+| Componente | Uso | Substitui |
+|------------|-----|-----------|
+| Skeleton   | Loading em listas/tabelas | "Carregando...", spinners genéricos |
+| EmptyState | Lista/grid sem dados      | "Nenhum X encontrado" em td |
+| Toast      | Feedback de ações (sucesso/erro) | alert(), window.alert |
+| Alert      | Mensagens inline (erro/sucesso/info) | div com cor, p de erro |
+
+Regra: Ao aprovar itens que incluam estes componentes, o agente DEVE:
+1) Criar o componente em components/ui/
+2) Integrar nas páginas onde o padrão antigo é usado
+3) NÃO deixar como "pendente para próxima iteração"
+
+--------------------------------------------------------------
+7) REGRA ANTI-PENDÊNCIAS (OBRIGATÓRIA)
+--------------------------------------------------------------
+
+Ao executar itens APROVADOS, o agente DEVE:
+- Implementar TODOS os itens aprovados na mesma execução
+- NÃO marcar itens aprovados como "pendente para próxima iteração"
+- Se um item depende de outro (ex: Toast precisa de ToastProvider),
+  implementar a cadeia completa
+- Incluir Skeleton, EmptyState, Toast, Alert no escopo quando forem
+  itens aprovados (ENH-005 a ENH-008 ou equivalentes)
+
+--------------------------------------------------------------
+8) ARQUIVO DE REFERÊNCIA
+--------------------------------------------------------------
+
+Este arquivo deve ser lido pelos agentes 07 e 08 antes de cada execução.
+Caminho: [raiz_projeto]/Agentes/REGRA_CORRECOES_UX_UI_GENERICAS.txt
+
+==================================================================
+FIM DA REGRA
+==================================================================

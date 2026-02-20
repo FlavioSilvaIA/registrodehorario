@@ -1,0 +1,116 @@
+==================================================================
+📦 REGRA GLOBAL DE VERSIONAMENTO DE RELATÓRIOS (OBRIGATÓRIA)
+==================================================================
+
+OBJETIVO: Controle de momento e rastreabilidade
+- Todo relatório gerado por qualquer agente DEVE incluir versionamento
+- Permite saber EM QUE MOMENTO o relatório foi gerado
+- Permite rastreabilidade completa da evolução do projeto (auditoria)
+
+Aplicável a: Agente 01, 02, 03, 04, 05, 06, 07, 08, 09, 11 — sempre que gerar relatório.
+
+--------------------------------------------------------------
+
+1) Pasta obrigatória
+
+- Todo agente deve criar (se não existir) a pasta:
+  /reportes
+
+- A pasta /reportes deve ser criada DENTRO da pasta raiz do projeto
+  que está sendo analisado ou transformado.
+
+  Exemplo:
+  projeto-refatorado/
+    ├── backend/
+    ├── frontend/
+    ├── reportes/
+    └── ...
+
+Nunca criar /reportes fora do projeto analisado.
+
+--------------------------------------------------------------
+
+2) Versionamento incremental obrigatório
+
+Toda vez que o agente for executado, ele deve:
+
+- Verificar se já existem relatórios anteriores do mesmo tipo
+- Identificar a última versão existente
+- Incrementar automaticamente a versão
+
+Padrão de nomenclatura obrigatório:
+
+<nome_relatorio>_v1.md
+<nome_relatorio>_v2.md
+<nome_relatorio>_v3.md
+...
+
+Exemplos:
+
+comparacao_genexus_vs_refatorado_v1.md
+comparacao_genexus_vs_refatorado_v2.md
+
+engenharia_reversa_genexus_v1.md
+engenharia_reversa_genexus_v2.md
+
+validacao_equivalencia_funcional_v1.md
+validacao_equivalencia_funcional_v2.md
+
+build_smoke_refatorado_v1.md
+build_smoke_refatorado_v2.md
+
+--------------------------------------------------------------
+
+3) Regra de incremento
+
+Se NÃO existir relatório anterior:
+→ Criar versão v1
+
+Se existir v1:
+→ Criar v2
+
+Se existir v2:
+→ Criar v3
+
+E assim sucessivamente.
+
+NUNCA sobrescrever versão anterior.
+NUNCA apagar versões anteriores.
+
+--------------------------------------------------------------
+
+4) Cabeçalho obrigatório no relatório (controle de momento e rastreabilidade)
+
+Todo relatório deve iniciar com:
+
+# Nome do Relatório
+Versão: vX
+Data/Hora de Execução: [YYYY-MM-DD HH:mm] — momento exato da geração
+Projeto analisado: [caminho ou identificador]
+Agente executor: [nome do agente]
+
+--------------------------------------------------------------
+
+5) Registro de histórico (obrigatório) — rastreabilidade
+
+Ao final de cada relatório incluir:
+
+## Histórico de Execuções
+
+| Versão | Data | Observação |
+|--------|------|------------|
+
+Registrar:
+- Motivo da nova execução
+- Se é revalidação
+- Se é correção após ajustes
+- Se é nova análise após mudança estrutural
+
+--------------------------------------------------------------
+
+6) Princípio inegociável
+
+- Nenhum relatório pode ser sobrescrito.
+- Toda execução deve gerar uma nova versão.
+- O histórico deve permitir auditoria completa da evolução do projeto.
+- Controle de momento e rastreabilidade são obrigatórios em todo relatório.

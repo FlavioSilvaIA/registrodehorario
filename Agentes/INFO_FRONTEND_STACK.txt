@@ -1,0 +1,86 @@
+==================================================================
+📋 INFO FRONTEND STACK — Referência para Agentes de Frontend
+==================================================================
+
+OBJETIVO:
+- Padronizar as informações que agentes upstream (01, 02, 03) devem entregar
+  aos agentes de alteração de frontend (07, 08, 09, 11).
+- Garantir que agentes de UI/UX conheçam o stack antes de propor alterações.
+- Manter genérico: aplicável a qualquer projeto React/React Native.
+
+Aplicável a: Agente 01, 02, 03 (produzem), Agente 07, 08, 09, 11 (consumem).
+
+--------------------------------------------------------------
+1) O QUE É FRONTEND_STACK_INFO
+--------------------------------------------------------------
+
+Bloco de informações técnicas do frontend que deve ser incluído em
+relatórios ou passado como entrada para agentes que modificam UI/UX.
+
+--------------------------------------------------------------
+2) TEMPLATE OBRIGATÓRIO (genérico)
+--------------------------------------------------------------
+
+Quando um agente produzir ou consumir informações de frontend, deve
+usar ou preencher o seguinte template:
+
+  FRONTEND_STACK_INFO:
+    - estilos:
+        tipo: [CSS puro | CSS Modules | styled-components | Tailwind | MUI | Bootstrap | outro]
+        arquivo_principal: [ex: index.css, globals.css, tailwind.config.js]
+        tokens: [sim | não | parcial]  # Design tokens (variáveis CSS, theme)
+    - bundler: [Vite | Create React App | Next.js | Parcel | outro]
+    - framework_ui: [nenhum | MUI | Ant Design | Chakra | Bootstrap | shadcn/ui | outro]
+    - icones: [lucide-react | react-icons | Heroicons | Material Icons | outro]
+    - bibliotecas_principais: [React 18, react-router-dom, axios, etc.]
+    - observacoes: [qualquer detalhe relevante]
+
+--------------------------------------------------------------
+3) VALORES POSSÍVEIS (genéricos)
+--------------------------------------------------------------
+
+estilos.tipo:
+  - CSS puro: arquivo .css global, estilos inline (style={{}})
+  - CSS Modules: arquivos .module.css
+  - styled-components: biblioteca CSS-in-JS
+  - Tailwind: utilitários, tailwind.config
+  - MUI: Material-UI (theme, sx, styled)
+  - Bootstrap: classes Bootstrap
+  - outro: descrever em observacoes
+
+framework_ui:
+  - nenhum: componentes próprios, sem lib de UI
+  - MUI, Ant Design, Chakra, Bootstrap, shadcn/ui, etc.
+
+--------------------------------------------------------------
+4) QUANDO INCLUIR
+--------------------------------------------------------------
+
+AGENTES QUE PRODUZEM (01, 02, 03):
+  - Se o projeto já possui frontend refatorado: incluir seção
+    FRONTEND_STACK_INFO no relatório de saída (ou em anexo).
+  - Se for migração do zero: o Agente 03 define a stack na Fase 2;
+    incluir FRONTEND_STACK_INFO no plano arquitetural.
+
+AGENTES QUE CONSUMEM (07, 08, 09, 11):
+  - Entrada opcional: FRONTEND_STACK_INFO (pode vir de relatório upstream
+    ou ser inferido ao analisar package.json, arquivos .css, imports).
+  - Se não receber: o agente deve inferir analisando o projeto
+    (package.json, imports, estrutura de pastas).
+
+--------------------------------------------------------------
+5) EXEMPLO (projeto atual)
+--------------------------------------------------------------
+
+  FRONTEND_STACK_INFO:
+    estilos:
+      tipo: CSS puro
+      arquivo_principal: src/index.css
+      tokens: sim
+    bundler: Vite
+    framework_ui: nenhum
+    icones: lucide-react
+    bibliotecas_principais: React 18, react-router-dom, axios, jspdf, xlsx
+    observacoes: Estilos inline predominantes; tokens em :root (index.css)
+
+==================================================================

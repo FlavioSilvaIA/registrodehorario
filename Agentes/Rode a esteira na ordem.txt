@@ -1,0 +1,14 @@
+Rode a esteira na ordem:
+
+Agente 01 (Engenharia Reversa GeneXus) → você já tem
+
+Agente 02 (Refatoração 3 fases FullStack) → você já tem
+
+Agente 04 (Comparador) → entrega “gaps e cobertura”
+
+Agente 05 (Equivalência) → entrega “aceite e testes”
+
+Agente 06 (Build/Smoke) → entrega “evidência técnica”
+---
+REGRA: Todo relatorio gerado deve incluir versionamento (controle de momento e rastreabilidade).
+Ver: REGRA_VERSIONAMENTO_RELATORIOS.txt
